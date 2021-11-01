@@ -1,35 +1,31 @@
 import glob
 from utils import *
-import time
 from numpy import savetxt
 from numpy import loadtxt
 
-print('Counting GLCM.')
-glcm_normal = [glcm_blood_vessel(cv2.imread(file)) for file in glob.glob("Dataset/normal/*")]
-print('Processing GLCM...(1/2)')
-print('Saving array into .txt file.')
-savetxt('glcm_normal.txt', glcm_normal, delimiter=',')
+# print('Counting GLCM.')
+# glcm_normal = [glcm_blood_vessel(cv2.imread(file)) for file in glob.glob("Dataset/normal/*")]
+# savetxt('glcm_normal.txt', glcm_normal, delimiter=',')
+# print('Processing GLCM...(1/2)')
 
-glcm_glaucoma = [glcm_blood_vessel(cv2.imread(file)) for file in glob.glob("Dataset/glaucoma/*")]
-print('Processing GLCM...(2/2)')
-savetxt('glcm_glaucoma.txt', glcm_glaucoma, delimiter=',')
-print('Saving array into .txt file.')
+# glcm_glaucoma = [glcm_blood_vessel(cv2.imread(file)) for file in glob.glob("Dataset/glaucoma/*")]
+# savetxt('glcm_glaucoma.txt', glcm_glaucoma, delimiter=',')
+# print('Processing GLCM...(2/2)')
 
-# # Di tahap ini lama banget
-print('Counting Moment Invariant.')
-moment_invariant_normal = [count_moment_invariant(cv2.imread(file)) for file in glob.glob("Dataset/normal/*")]
-savetxt('moment_invariant_normal.txt', moment_invariant_normal, delimiter=',')
-print('Processing Invariant Moment...(1/2)')
+# print('Counting Moment Invariant.')
+# moment_invariant_normal = [count_moment_invariant(cv2.imread(file)) for file in glob.glob("Dataset/normal/*")]
+# savetxt('moment_invariant_normal.txt', moment_invariant_normal, delimiter=',')
+# print('Processing Invariant Moment...(1/2)')
 
-moment_invariant_glaucoma = [count_moment_invariant(cv2.imread(file)) for file in glob.glob("Dataset/glaucoma/*")]
-savetxt('moment_invariant_glaucoma.txt', moment_invariant_glaucoma, delimiter=',')
-print('Processing Invariant Moment...(2/2)')
+# moment_invariant_glaucoma = [count_moment_invariant(cv2.imread(file)) for file in glob.glob("Dataset/glaucoma/*")]
+# savetxt('moment_invariant_glaucoma.txt', moment_invariant_glaucoma, delimiter=',')
+# print('Processing Invariant Moment...(2/2)')
 
-# # Kalau mau load array dari .txt:
-# glcm_normal = loadtxt('glcm_normal.txt', delimiter=',')
-# glcm_glaucoma = loadtxt('glcm_glaucoma.txt', delimiter=',')
-# moment_invariant_normal = loadtxt('moment_invariant_normal.txt', delimiter=',')
-# moment_invariant_glaucoma = loadtxt('moment_invariant_glaucoma.txt', delimiter=',')
+# Kalau mau load array dari .txt (taruh txt di folder tempat main.py):
+glcm_normal = loadtxt('glcm_normal.txt', delimiter=',')
+glcm_glaucoma = loadtxt('glcm_glaucoma.txt', delimiter=',')
+moment_invariant_normal = loadtxt('moment_invariant_normal.txt', delimiter=',')
+moment_invariant_glaucoma = loadtxt('moment_invariant_glaucoma.txt', delimiter=',')
 
 label_0 = []
 label_1 = []

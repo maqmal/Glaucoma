@@ -1,11 +1,12 @@
 import numpy as np
-import glob
 import cv2 
 from skimage.feature import greycomatrix, greycoprops
 from skimage.measure import shannon_entropy
 
 from scipy import *
 from scipy import copysign, log10
+
+from skimage.feature import hog
 
 def doGLCM(img):
     g = greycomatrix(img, [1], [0], levels=img.max()+1, symmetric=False, normed=True)
@@ -123,48 +124,31 @@ def od_oc_segmentation(image):
 
 # Function untuk menghitung moment invariant
 def count_moment_invariant(image):
-    Abo,Ago,Aro = cv2.split(image)  #splitting into 3 channels
-
-    Ar = Aro - Aro.mean()           #Preprocessing Red
-    Ar = Ar - Ar.mean() - Aro.std() #Preprocessing Red
-    Ar = Ar - Ar.mean() - Aro.std() #Preprocessing Red
-
-    Mr = Ar.mean()                           #Mean of preprocessed red
-    SDr = Ar.std()                           #SD of preprocessed red
-    # Thr = 49.5 - 12 - Ar.std()               #OD Threshold
-    Thr = Ar.std()
-
-    Ag = Ago - Ago.mean()           #Preprocessing Green
-    Ag = Ag - Ag.mean() - Ago.std() #Preprocessing Green
-
-    Mg = Ag.mean()                           #Mean of preprocessed green
-    SDg = Ag.std()                           #SD of preprocessed green
-    Thg = Ag.mean() + 2*Ag.std() + 49.5 + 12 #OC Threshold
-
-    r,c = Ag.shape
-    Dd = np.zeros(shape=(r,c))
-    Dc = np.zeros(shape=(r,c))
-
-    for i in range(1,r):
-        for j in range(1,c):
-            if Ar[i,j]>Thr:
-                Dd[i,j]=255
-            else:
-                Dd[i,j]=0
-
-    for i in range(1,r):
-        for j in range(1,c):
-            if Ag[i,j]>Thg:
-                Dc[i,j]=1
-            else:
-                Dc[i,j]=0
-
-    optic_cup = Dc
-    optic_disk = Dd
-
+    optic_disk, optic_cup = od_oc_segmentation(image)
+    
     moments = cv2.moments(optic_disk)
     huMoments = cv2.HuMoments(moments)
     for i in range(0,7):
         huMoments[i] = -1* copysign(1.0, huMoments[i]) * log10(abs(huMoments[i]))
     huMoments = huMoments.ravel()
     return huMoments
+
+def vectorHOG(image, level):
+    x = 128 / (2**level)
+    y = 64 / (2**level)
+
+    fd, hog_image = hog(image, orientations=9, pixels_per_cell=(y, x),
+                    cells_per_block=(1, 1), visualize=True)
+
+    return fd
+
+def count_phog(image, max_level):
+    phog_feature = []
+    convertRGB = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    enhancedImage = cv2.convertScaleAbs(convertRGB, alpha=2, beta=22)
+
+    resized_img = cv2.resize(enhancedImage, (128,64))
+    for level in range(max_level):
+        vectorCiri = vectorHOG(resized_img, level)
+        for i in range(len(vectorCiri)):
+            phog_feature.append(vectorCiri[i])
