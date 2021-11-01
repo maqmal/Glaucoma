@@ -1,12 +1,12 @@
 from utils import *
 from numpy import loadtxt
 
-glcm_normal = loadtxt('glcm_normal.txt', delimiter=',')
-glcm_glaucoma = loadtxt('glcm_glaucoma.txt', delimiter=',')
-moment_invariant_normal = loadtxt('moment_invariant_normal.txt', delimiter=',')
-moment_invariant_glaucoma = loadtxt('moment_invariant_glaucoma.txt', delimiter=',')
-phog_normal = loadtxt('phog_normal.txt', delimiter=',')
-phog_glaucoma = loadtxt('phog_glaucoma.txt', delimiter=',')
+glcm_normal = loadtxt('Array/glcm_normal.txt', delimiter=',')
+glcm_glaucoma = loadtxt('Array/glcm_glaucoma.txt', delimiter=',')
+moment_invariant_normal = loadtxt('Array/moment_invariant_normal.txt', delimiter=',')
+moment_invariant_glaucoma = loadtxt('Array/moment_invariant_glaucoma.txt', delimiter=',')
+phog_normal = loadtxt('Array/phog_normal.txt', delimiter=',')
+phog_glaucoma = loadtxt('Array/phog_glaucoma.txt', delimiter=',')
 
 label_0 = []
 label_1 = []
