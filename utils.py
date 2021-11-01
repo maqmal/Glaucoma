@@ -152,3 +152,4 @@ def count_phog(image, max_level):
         vectorCiri = vectorHOG(resized_img, level)
         for i in range(len(vectorCiri)):
             phog_feature.append(vectorCiri[i])
+    return phog_feature

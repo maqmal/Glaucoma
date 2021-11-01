@@ -21,11 +21,22 @@ from numpy import loadtxt
 # savetxt('moment_invariant_glaucoma.txt', moment_invariant_glaucoma, delimiter=',')
 # print('Processing Invariant Moment...(2/2)')
 
+# print('Counting PHOG.')
+# phog_normal = [count_phog(cv2.imread(file), max_level=5) for file in glob.glob("Dataset/normal/*")]
+# savetxt('phog_normal.txt', phog_normal, delimiter=',')
+# print('Processing PHOG...(1/2)')
+
+# phog_glaucoma = [count_phog(cv2.imread(file), max_level=5) for file in glob.glob("Dataset/glaucoma/*")]
+# savetxt('phog_glaucoma.txt', phog_glaucoma, delimiter=',')
+# print('Processing PHOG...(2/2)')
+
 # Kalau mau load array dari .txt (taruh txt di folder tempat main.py):
 glcm_normal = loadtxt('glcm_normal.txt', delimiter=',')
 glcm_glaucoma = loadtxt('glcm_glaucoma.txt', delimiter=',')
 moment_invariant_normal = loadtxt('moment_invariant_normal.txt', delimiter=',')
 moment_invariant_glaucoma = loadtxt('moment_invariant_glaucoma.txt', delimiter=',')
+phog_normal = loadtxt('phog_normal.txt', delimiter=',')
+phog_glaucoma = loadtxt('phog_glaucoma.txt', delimiter=',')
 
 label_0 = []
 label_1 = []
@@ -35,9 +46,9 @@ for i in range(len(glcm_normal)):
 for i in range(len(glcm_glaucoma)):
     label_1.append(1)
 
-X_normal = np.concatenate([glcm_normal,moment_invariant_normal],axis=1)
+X_normal = np.concatenate([glcm_normal,moment_invariant_normal,phog_normal],axis=1)
 print('Concatenating array...(1/2)')
-X_glaucoma = np.concatenate([glcm_glaucoma,moment_invariant_glaucoma],axis=1)
+X_glaucoma = np.concatenate([glcm_glaucoma,moment_invariant_glaucoma,phog_glaucoma],axis=1)
 print('Concatenating array...(2/2)')
 
 X_normal[X_normal >= 1E308] = 0
