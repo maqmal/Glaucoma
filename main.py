@@ -21,8 +21,11 @@ print('Concatenating array...(1/2)')
 X_glaucoma = np.concatenate([glcm_glaucoma,moment_invariant_glaucoma,phog_glaucoma],axis=1)
 print('Concatenating array...(2/2)')
 
+# Biar gk ada angka infinity
 X_normal[X_normal >= 1E308] = 0
 X_glaucoma[X_glaucoma >= 1E308] = 0
+X_normal[~np.isfinite(X_normal)] = 0
+X_glaucoma[~np.isfinite(X_glaucoma)] = 0
 
 # X = Gabungin normal & glaucoma, y = label nya (normal=0,glaucoma=1)
 X = np.vstack((X_normal,X_glaucoma))

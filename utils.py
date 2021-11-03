@@ -144,10 +144,10 @@ def vectorHOG(image, level):
 
 def count_phog(image, max_level):
     phog_feature = []
-    convertRGB = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    enhancedImage = cv2.convertScaleAbs(convertRGB, alpha=2, beta=22)
+    # convertRGB = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # enhancedImage = cv2.convertScaleAbs(convertRGB, alpha=2, beta=22)
 
-    resized_img = cv2.resize(enhancedImage, (128,64))
+    resized_img = cv2.resize(image, (128,64))
     for level in range(max_level):
         vectorCiri = vectorHOG(resized_img, level)
         for i in range(len(vectorCiri)):
