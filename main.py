@@ -28,12 +28,19 @@ X_normal[~np.isfinite(X_normal)] = 0
 X_glaucoma[~np.isfinite(X_glaucoma)] = 0
 
 # X = Gabungin normal & glaucoma, y = label nya (normal=0,glaucoma=1)
+from sklearn.preprocessing import MinMaxScaler
 X = np.vstack((X_normal,X_glaucoma))
 y = np.append(label_0,label_1)
 
+from imblearn import over_sampling
+
+X_over_smote, y_over_smote = over_sampling.SMOTE().fit_resample(X, y)
+
 print('Splitting train test...')
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X_over_smote, y_over_smote, test_size=0.25, random_state=0)
+X_train = MinMaxScaler().fit_transform(X_train)
+X_test = MinMaxScaler().fit_transform(X_test)
 
 print('Training KNN...')
 from sklearn.neighbors import KNeighborsClassifier
@@ -50,8 +57,10 @@ from sklearn.svm import SVC
 svc=SVC() 
 svc.fit(X_train,y_train)
 
-
-print('====================================================')
+print('\n')
+print('Jumlah data (sebelum SMOTE) = ', X.shape[0])
+print('Jumlah data (setelah SMOTE) = ', X_over_smote.shape[0])
+print('=================PREDICTING========================')
 print('Predicting...')
 predictions_knn = knn.predict(X_test)
 predictions_rfc = rfc.predict(X_test)
