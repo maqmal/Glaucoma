@@ -4,8 +4,7 @@ from numpy import savetxt
 
 normal_path= glob.glob("Dataset/normal/*")
 glaucoma_path= glob.glob("Dataset/glaucoma/*")
-
-
+ 
 print('Counting GLCM.')
 glcm_normal = [glcm_blood_vessel(cv2.imread(file)) for file in normal_path]
 savetxt('Array/glcm_normal.txt', glcm_normal, delimiter=',')
