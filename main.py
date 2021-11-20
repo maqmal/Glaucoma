@@ -95,6 +95,7 @@ print("SVM = %.3f" % f1_score(y_test, predictions_svm, average='macro'))
 # print(tpot.score(X_test, y_test))
 # tpot.export('hasil_tpot.py')
 
+# # =====================Ini hasil pipeline dari TPOT==========================
 # from sklearn.neural_network import MLPClassifier
 # exported_pipeline = MLPClassifier(alpha=0.01, learning_rate_init=0.01)
 # if hasattr(exported_pipeline, 'random_state'):
